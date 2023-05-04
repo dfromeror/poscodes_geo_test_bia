@@ -13,7 +13,7 @@ def alchemyencoder(obj):
         return float(obj)
 
         
-class PoscodesGeoRepo:
+class PostcodesGeoRepo:
 
     def generate_zip_code(lat: float, lon: float):
         return util.get_zipcode(lat=lat, lon=lon)

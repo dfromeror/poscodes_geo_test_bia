@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from repositories import PoscodesGeoRepo
+from repositories import PostcodesGeoRepo
 from sqlalchemy.orm import Session
 import uvicorn
 from typing import List,Optional
@@ -15,8 +15,8 @@ from slowapi.util import get_remote_address
 import schemas as schemas
 
 limiter = Limiter(key_func=get_remote_address)
-app = FastAPI(title="Sample FastAPI Application",
-    description="Sample FastAPI Application with Swagger and Sqlalchemy",
+app = FastAPI(title="PostCodes API",
+    description="API for generate PostCodes from Lat and Lon",
     version="1.0.0",)
 
 app.state.limiter = limiter
@@ -24,12 +24,12 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 
 
-@app.put('/poscodes_geo', tags=["PoscodesGeo"])
-def get_poscodes_geo(poscodes_geo_request: schemas.PoscodesGeo):
+@app.put('/postcodes_geo', tags=["PostcodesGeo"])
+def get_postcodes_geo(postcodes_geo_request: schemas.PostcodesGeo):
     """
-    Update an hired_employee jobd in the database
+    Get postcode from Lat and Lon
     """
-    zip_code = PoscodesGeoRepo.generate_zip_code(lat=poscodes_geo_request.lat, lon=poscodes_geo_request.lon)
+    zip_code = PostcodesGeoRepo.generate_zip_code(lat=postcodes_geo_request.lat, lon=postcodes_geo_request.lon)
 
     headers = {
     'accept': 'application/json',
@@ -40,7 +40,7 @@ def get_poscodes_geo(poscodes_geo_request: schemas.PoscodesGeo):
         'zip': zip_code,
     }
 
-    response = requests.put(f'http://127.0.0.1:8080/update_zip_code/{poscodes_geo_request.id}', headers=headers, json=json_data)
+    response = requests.put(f'http://127.0.0.1:8080/update_zip_code/{postcodes_geo_request.id}', headers=headers, json=json_data)
 
     return "OK"
 

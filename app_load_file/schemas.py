@@ -3,18 +3,18 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class PoscodesGeoZip(BaseModel):
+class PostcodesGeoZip(BaseModel):
     zip: int
 
-class PoscodesGeoBase(BaseModel):
+class PostcodesGeoBase(BaseModel):
     lat: float
     lon: float
     zip: Optional[int] = None
 
-class PoscodesGeoCreate(PoscodesGeoBase):
+class PostcodesGeoCreate(PostcodesGeoBase):
     pass
 
-class PoscodesGeo(PoscodesGeoBase):
+class PostcodesGeo(PostcodesGeoBase):
     id: int
 
     class Config:

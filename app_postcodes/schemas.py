@@ -3,14 +3,14 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class PoscodesGeoBase(BaseModel):
+class PostcodesGeoBase(BaseModel):
     lat: float
     lon: float
 
-class PoscodesGeoCreate(PoscodesGeoBase):
+class PostcodesGeoCreate(PostcodesGeoBase):
     pass
 
-class PoscodesGeo(PoscodesGeoBase):
+class PostcodesGeo(PostcodesGeoBase):
     id: int
 
     class Config:
