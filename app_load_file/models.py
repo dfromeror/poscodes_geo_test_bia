@@ -11,4 +11,4 @@ class PoscodesGeo(Base):
     lon = Column(Float, nullable=False, index=True)
     zip = Column(Integer, nullable=True)
     def __repr__(self):
-        return 'PoscodesGeo(lat=%s,lon=%s)' % (self.lat,self.lon)
+        return 'PoscodesGeo(id=%s, lat=%s, lon=%s, zip=%s)' % (self.id, self.lat,self.lon, self.zip)

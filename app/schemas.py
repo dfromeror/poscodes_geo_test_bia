@@ -6,7 +6,6 @@ from pydantic import BaseModel
 class PoscodesGeoBase(BaseModel):
     lat: float
     lon: float
-    zip: int
 
 class PoscodesGeoCreate(PoscodesGeoBase):
     pass
