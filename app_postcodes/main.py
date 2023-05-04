@@ -22,10 +22,13 @@ app = FastAPI(title="PostCodes API",
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+URL_APP_LOAD_FILE = "http://app_load_file:80"
 
 
 @app.put('/postcodes_geo', tags=["PostcodesGeo"])
-def get_postcodes_geo(postcodes_geo_request: schemas.PostcodesGeo):
+@limiter.limit("5/minute")
+async def get_postcodes_geo(postcodes_geo_request: schemas.PostcodesGeo,
+    request: Request):
     """
     Get postcode from Lat and Lon
     """
@@ -40,19 +43,9 @@ def get_postcodes_geo(postcodes_geo_request: schemas.PostcodesGeo):
         'zip': zip_code,
     }
 
-    response = requests.put(f'http://127.0.0.1:8080/update_zip_code/{postcodes_geo_request.id}', headers=headers, json=json_data)
+    response = requests.put(f'{URL_APP_LOAD_FILE}/update_zip_code/{postcodes_geo_request.id}', headers=headers, json=json_data)
 
     return "OK"
-
-@app.get("/mars")
-@limiter.limit("5/minute")
-async def homepage(request: Request):
-    return {"key": "value"}
-
-@app.get('/healthcheck', status_code=status.HTTP_200_OK)
-def health_chech():
-    return {'healthcheck': 'Everything OK!'}
-
 
 if __name__ == "__main__":
     uvicorn.run("main:app", port=9000, reload=True)
