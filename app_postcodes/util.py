@@ -1,6 +1,4 @@
 import geopy
-import pandas as pd
-
 
 def get_zipcode(lat, lon):
 

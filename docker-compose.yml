@@ -1,0 +1,16 @@
+version: '3'
+services:
+    app_load_file:
+        restart: always
+        build: 
+          dockerfile: Dockerfile
+          context: ./app_load_file
+        ports: 
+          - '80:80'
+    app_postcodes:
+        restart: always
+        build: 
+          dockerfile: Dockerfile
+          context: ./app_postcodes
+        ports: 
+          - '81:81'

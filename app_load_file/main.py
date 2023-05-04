@@ -27,28 +27,25 @@ async def create_upload_file(file: UploadFile, db: Session = Depends(get_db)):
 
 
 @app.get('/postcodes_geo/{id}', tags=["PostcodesGeo"],response_model=schemas.PostcodesGeo)
-def get_department(id: int,db: Session = Depends(get_db)):
+def get_postcodes_geo(id: int,db: Session = Depends(get_db)):
     """
-    Get the postcodes with the given ID provided by User departmentd in database
+    Get the postcodes with the given ID in database
     """
-    db_departments = PostcodesGeoRepo.fetch_by_id(db,id)
-    # if db_departments is None:
-    #     raise HTTPException(status_code=404, detail="department not found with the given ID")
-    return db_departments
+    db_postcodes_geo = PostcodesGeoRepo.fetch_by_id(db,id)
+
+    return db_postcodes_geo
 
 
 @app.put('/update_zip_code/{id}', tags=["PostcodesGeo"],response_model=schemas.PostcodesGeo)
 async def update_zip_code(id: int, postcodes_geo_request: schemas.PostcodesGeoZip, db: Session = Depends(get_db)):
     """
-    Update an hired_employee jobd in the database
+    Update an PostcodesGeo in the database
     """
     db_oscodes_geo = PostcodesGeoRepo.fetch_by_id(db, id)
     if db_oscodes_geo:
-        update_hired_employee_encoded = jsonable_encoder(postcodes_geo_request)
-        db_oscodes_geo.zip = update_hired_employee_encoded['zip']
+        update_postcodes_geo_encoded = jsonable_encoder(postcodes_geo_request)
+        db_oscodes_geo.zip = update_postcodes_geo_encoded['zip']
         return await PostcodesGeoRepo.update(db=db, store_data=db_oscodes_geo)
-    # else:
-    #     raise HTTPException(status_code=400, detail="hired_employee not found with the given ID")
 
 @app.get('/healthcheck', status_code=status.HTTP_200_OK)
 def health_chech():
